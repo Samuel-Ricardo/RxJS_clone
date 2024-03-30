@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Samuel-Ricardo/RxJS_clone/issues"
   },
-  "homepage": "https://github.com/Samuel-Ricardo/RxJS_clone#readme"
+  "homepage": "https://github.com/Samuel-Ricardo/RxJS_clone#readme",
+  "dependencies": {
+    "browser-sync": "^3.0.2"
+  }
 }
