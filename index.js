@@ -1,4 +1,4 @@
-import { fromEvent, map, merge, switchMap } from "./operators";
+import { fromEvent, map, merge, switchMap, takeUntil } from "./operators";
 
 const canvas = document.getElementById("canvas");
 const clearBtn = document.getElementById("clearBtn");
@@ -76,6 +76,16 @@ merge([
       fromEvent(canvas, mouseEvents.touchmove).pipeThrough(
         map((e) => touchToMouse(e, mouseEvents.touchmove)),
       ),
-    ]);
+    ]).pipeThrough(
+      takeUntil(
+        merge([
+          fromEvent(canvas, mouseEvents.up),
+          fromEvent(canvas, mouseEvents.leave),
+          fromEvent(canvas, mouseEvents.touchend).pipeThrough(
+            map((e) => touchToMouse(e, mouseEvents.up)),
+          ),
+        ]),
+      ),
+    );
   }),
 );
