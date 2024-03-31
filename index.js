@@ -91,6 +91,7 @@ merge([
       );
     }),
   )
+  // calc the line to be drawn //
   .pipeThrough(
     map(function ([mouseDown, mouseMove]) {
       this._lastPosition = this._lastPosition ?? mouseDown;
@@ -102,5 +103,15 @@ merge([
       this._lastPosition = mouseMove.type === mouseEvents.up ? null : mouseMove;
 
       return { from, to };
+    }),
+  )
+  .pipeTo(
+    new WritableStream({
+      write({ from, to }) {
+        store.set({ from, to });
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.stroke();
+      },
     }),
   );
