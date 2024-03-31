@@ -14,3 +14,24 @@ const mouseEvents = {
 
   click: "click",
 };
+
+const getMousePosition = (canvasDom, eventValue) => {
+  const rect = canvasDom.getBoundingClientRect();
+  return {
+    x: eventValue.clientX - rect.left,
+    y: eventValue.clientY - rect.top,
+  };
+};
+
+const resetCanvas = (width, hieght) => {
+  const parent = canvas.parentElement;
+
+  canvas.width = width || parent.clientWidth * 0.9;
+  canvas.height = hieght || parent.clientHeight * 1.5;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = "green";
+  ctx.lineWidth = 4;
+};
+
+resetCanvas();
