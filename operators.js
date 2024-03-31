@@ -37,3 +37,16 @@ const interval = (ms) => {
     },
   });
 };
+
+/**
+ *
+ * @param {Function} fn
+ * @return {TransformStream}
+ */
+const map = (fn) => {
+  return new TransformStream({
+    transform(chunk, controller) {
+      controller.enqueue(fn.bind(fn)(chunk));
+    },
+  });
+};
