@@ -50,3 +50,32 @@ const map = (fn) => {
     },
   });
 };
+
+/*
+ *
+ * @typedef {ReadableStream | TransformStream} Stream
+ * @param {Stream[]} streams
+ * @returns {ReadableStream}
+ *
+ */
+const merge = (stream) => {
+  return new ReadableStream({
+    async start(controller) {
+      for (const stream of streams) {
+        const reader = (stream.readable || stream).getReader();
+
+        async function read() {
+          const { value, done } = await reader.read();
+
+          if (done) return;
+          if (!controller.desiredSize) return;
+
+          controller.enqueue(value);
+          return read();
+        }
+
+        read();
+      }
+    },
+  });
+};
