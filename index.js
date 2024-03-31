@@ -115,3 +115,22 @@ merge([
       },
     }),
   );
+
+fromEvent(clearBtn, mouseEvents.click).pipeTo(
+  new WritableStream({
+    async write(chunk) {
+      ctx.beginPath();
+      ctx.strokeStyle = "white";
+
+      for (const { from, to } of store.get()) {
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.stroke();
+        await sleep(5);
+      }
+
+      resetCanvas();
+      store.clear();
+    },
+  }),
+);
