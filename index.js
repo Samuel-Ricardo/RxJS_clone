@@ -1,3 +1,5 @@
+import { fromEvent, map, merge } from "./operators";
+
 const canvas = document.getElementById("canvas");
 const clearBtn = document.getElementById("clearBtn");
 const ctx = canvas.getContext("2d");
@@ -61,3 +63,10 @@ const touchToMouse = (touchEvent, mouseEvents) => {
     clientY: touch.clientY,
   });
 };
+
+merge([
+  fromEvent(canvas, mouseEvents.down),
+  fromEvent(canvas, mouseEvents.move).pipeThrough(
+    map((e) => touchToMouse(e, mouseEvents.touchstart)),
+  ),
+]);
