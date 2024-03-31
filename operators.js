@@ -58,7 +58,7 @@ const map = (fn) => {
  * @returns {ReadableStream}
  *
  */
-const merge = (stream) => {
+const merge = (streams) => {
   return new ReadableStream({
     async start(controller) {
       for (const stream of streams) {

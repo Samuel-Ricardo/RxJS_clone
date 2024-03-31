@@ -1,4 +1,4 @@
-import { fromEvent, map, merge, switchMap, takeUntil } from "./operators";
+import { fromEvent, map, merge, switchMap, takeUntil } from "./operators.js";
 
 const canvas = document.getElementById("canvas");
 const clearBtn = document.getElementById("clearBtn");
