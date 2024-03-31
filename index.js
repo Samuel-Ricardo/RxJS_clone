@@ -35,3 +35,29 @@ const resetCanvas = (width, hieght) => {
 };
 
 resetCanvas();
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const store = {
+  db: [],
+  get() {
+    return this.db;
+  },
+  set(item) {
+    this.db.unshift(item);
+  },
+  clear() {
+    this.db.length = 0;
+  },
+};
+
+const touchToMouse = (touchEvent, mouseEvents) => {
+  const [touch] = touchEvent.touches.length
+    ? touchEvent.touches
+    : touchEvent.changedTouches;
+
+  return new MouseEvent(mouseEvent, {
+    clientX: touch.clientX,
+    clientY: touch.clientY,
+  });
+};
