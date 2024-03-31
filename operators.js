@@ -79,3 +79,34 @@ const merge = (stream) => {
     },
   });
 };
+
+/**
+ * @typedef {function(): ReadableStream | TransformStream} StreamFunction
+ *
+ * @param {StreamFunction} fn
+ * @param {object} options
+ * @param {boolean} options.pairwise
+ *
+ * @return {TransformStream}
+ */
+const switchMap = (fn, options = { pairwise: true }) => {
+  return new TransformStream({
+    transform(chunk, controller) {
+      const stream = fn.bind(fn)(chunk);
+
+      const reader = (stream.readable || stream).getReader();
+
+      async function read() {
+        const { value, done } = await reader.read();
+        if (done) return;
+
+        const result = options.pairwise ? [chunk, value] : value;
+        controller.enqueue(result);
+
+        return read();
+      }
+
+      return read();
+    },
+  });
+};
