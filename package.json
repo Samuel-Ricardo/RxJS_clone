@@ -4,6 +4,7 @@
   "description": "Implements RxJS with native JS",
   "main": "index.js",
   "scripts": {
+    "start": "npx browser-sync start --server --watch --files \"**/*.html\" \"**/*.css\" \"**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
